@@ -45,4 +45,20 @@ public class FilmController {
 		mv.setViewName("viewfilm");
 		return mv;
 	}
+	
+	@RequestMapping(path="updateFilm.do")
+	public ModelAndView updateFilm() {
+		ModelAndView mv = new ModelAndView();
+		
+		
+		return mv;
+	}
+	
+	@RequestMapping(path="keywordLookup.do")
+	public ModelAndView keywordLookup(String keyword) {
+		ModelAndView mv = new ModelAndView();
+		
+		
+		return mv;
+	}
 }

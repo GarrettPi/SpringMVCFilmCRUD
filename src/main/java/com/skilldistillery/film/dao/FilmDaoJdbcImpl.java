@@ -152,7 +152,6 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 					System.out.println("New film ID: " + keys.getInt(1));
 				}
 			} catch (SQLException e) {
-				film = null;
 				// Something went wrong.
 				System.err.println("Error during inserts.");
 				// e.printStackTrace();
@@ -167,6 +166,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 						e1.printStackTrace();
 					}
 				}
+				return null;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

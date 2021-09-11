@@ -7,12 +7,20 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-<context:component-scan base-package="com.skilldistillery.film"/>
+	<context:component-scan
+		base-package="com.skilldistillery.film" />
 
-<mvc:annotation-driven/>
+	<mvc:annotation-driven />
 
-<bean id="dao" class="com.skilldistillery.film.dao.FilmDaoJdbcImpl">
-	
-</bean>
+	<bean id="dao"
+		class="com.skilldistillery.film.dao.FilmDaoJdbcImpl" />
+	<bean id="film" class="com.skilldistillery.film.entities.Film" />
+
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
 
 </beans>

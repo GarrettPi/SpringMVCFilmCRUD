@@ -61,9 +61,9 @@ public class FilmController {
 		film = filmDao.findFilmById(filmId);
 		if (film != null) {
 			filmDao.deleteFilm(film);
-			mv.setViewName("filmdeleted");
+			mv.addObject(film);
 		}
-		mv.addObject(film);
+		mv.setViewName("filmdeleted");
 		return mv;
 	}
 

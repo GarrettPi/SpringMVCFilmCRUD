@@ -17,8 +17,7 @@
 		Description: ${film.description }<br>
 		${film.length } minutes
 	<br><a href="home.do">Home</a>
-	<%-- <br><a href="deleteFilm.do" name="${film.id }">Delete this film</a> --%>
-	<<form action="deleteFilm.do">
+	<form action="deleteFilm.do">
 	Film Id <input type="text" name="filmId" value="${film.id }">
 	<input type="submit" value="Delete">
 	</form>

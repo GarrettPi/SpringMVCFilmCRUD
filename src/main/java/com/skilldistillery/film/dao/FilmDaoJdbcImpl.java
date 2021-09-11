@@ -221,15 +221,16 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	}
 
 	@Override
-	public Film updateFilm(Film film) {
+	public Film updateFilm(Film film, Film originalFilm) {
 		Connection conn = null;
+
 		try {
 			conn = DriverManager.getConnection(url, user, pword);
 			conn.setAutoCommit(false);
 			String sql = "UPDATE film "
 					+ "SET title = ?, description = ?, release_year = ?, language_id = ?, rental_duration = ?, rental_rate = ?, length = ?, replacement_cost = ?, rating = ?, special_features = ? "
 					+ "WHERE film.id = ?";
-			
+
 			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			st.setString(1, film.getTitle());
@@ -278,7 +279,47 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 
 	@Override
 	public Actor addActor(Actor actor) {
+		Connection conn = null;
+
+		try {
+			conn = DriverManager.getConnection(url, user, pword);
+			conn.setAutoCommit(false);
+			String sql = "INSERT INTO actor (first_name, last_name) VALUES (?,?)";
+
+			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			st.setString(1, actor.getFirstName());
+			st.setString(2, actor.getLastName());
+
+			try {
+				int aa = st.executeUpdate();
+				conn.commit();
+				System.out.println(aa + "film records updated");
+
+				ResultSet keys = st.getGeneratedKeys();
+				while (keys.next()) {
+					System.out.println("Add Actor ID: " + keys.getInt(1));
+				}
+			} catch (SQLException e) {
+				// Something went wrong.
+				System.err.println("Error during insert.");
+				// e.printStackTrace();
+				System.err.println("SQL Error: " + e.getErrorCode() + ": " + e.getMessage());
+				System.err.println("SQL State: " + e.getSQLState());
+				// Need to rollback, which also throws SQLException.
+				if (conn != null) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						System.err.println("Error rolling back.");
+						e1.printStackTrace();
+					}
+				}
+				return null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return actor;
-		
 	}
 }

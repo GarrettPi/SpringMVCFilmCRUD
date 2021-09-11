@@ -173,19 +173,20 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return film;
 	}
+
 	@Override
 	public Film deleteFilm(Film film) {
 		Connection conn = null;
-		
+
 		try {
 			conn = DriverManager.getConnection(url, user, pword);
 			conn.setAutoCommit(false); // Start transaction
 			String sql = "DELETE FROM film WHERE film.id=?";
-			
+
 			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			st.setInt(1, film.getId());
-			
+
 			try {
 				int df = st.executeUpdate();
 				conn.commit();
@@ -216,14 +217,61 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			e.printStackTrace();
 		}
 		return film;
-			
-			
-		}
-	
-	@Override
-	@Override
-	public Film updateFilm(Film film) {
-		
-	}
+
 	}
 
+	@Override
+	public Film updateFilm(Film film) {
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, user, pword);
+			conn.setAutoCommit(false);
+			String sql = "UPDATE film "
+					+ "SET title = ?, description = ?, release_year = ?, language_id = ?, rental_duration = ?, rental_rate = ?, length = ?, replacement_cost = ?, rating = ?, special_features = ? "
+					+ "WHERE film.id = ?";
+			
+			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+			st.setString(1, film.getTitle());
+			st.setString(2, film.getDescription());
+			st.setInt(3, film.getReleaseYear());
+			st.setInt(4, film.getLanguageId());
+			st.setInt(5, film.getRentalDuration());
+			st.setDouble(6, film.getRentalRate());
+			st.setInt(7, film.getLength());
+			st.setDouble(8, film.getReplacementCost());
+			st.setString(9, film.getRating());
+			st.setString(10, film.getSpecialFeatures());
+
+			try {
+				int uf = st.executeUpdate();
+				conn.commit();
+				System.out.println(uf + "film records updated");
+
+				ResultSet keys = st.getGeneratedKeys();
+				while (keys.next()) {
+					System.out.println("Updated film ID: " + keys.getInt(1));
+				}
+			} catch (SQLException e) {
+				// Something went wrong.
+				System.err.println("Error during update.");
+				// e.printStackTrace();
+				System.err.println("SQL Error: " + e.getErrorCode() + ": " + e.getMessage());
+				System.err.println("SQL State: " + e.getSQLState());
+				// Need to rollback, which also throws SQLException.
+				if (conn != null) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						System.err.println("Error rolling back.");
+						e1.printStackTrace();
+					}
+				}
+				return null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return film;
+	}
+}

@@ -15,15 +15,15 @@ public class FilmController {
 	private FilmDAO filmDao;
 
 	@RequestMapping(path = { "/", "home.do" })
-	public String home() {
-		return "WEB-INF/home.jsp";
+	public String home() {                   
+		return "home";
 	}
 	
 	@RequestMapping(path="addFilm.do", method=RequestMethod.POST)
 	public ModelAndView addFilm(Film film) {
 		ModelAndView mv = new ModelAndView();
-//		filmDao.createFilm(film);
-		mv.setViewName("/WEB-INF/filmadded.jsp");
+		filmDao.createFilm(film);
+		mv.setViewName("filmadded");
 		
 		
 		return mv;

@@ -14,9 +14,18 @@ import com.skilldistillery.film.entities.Category;
 import com.skilldistillery.film.entities.Film;
 
 public class FilmDaoJdbcImpl implements FilmDAO {
-	String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false";
+	String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain";
 	String user = "student";
 	String pword = "student";
+	
+	static {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public Film findFilmById(int filmId) {
@@ -116,7 +125,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		
 		    try {
 		    	conn = DriverManager.getConnection(url, user, pword);
-			      conn.setAutoCommit(false); // Start transactioning 
+			      conn.setAutoCommit(false); // Start transaction 
 			      String sql = "INSERT INTO film (title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features)" 
 		    	 + " VALUES(?,?,?,?,?,?,?,?,?,?)";
 		    	 
@@ -135,6 +144,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		         st.setString(10,film.getSpecialFeatures());
 		         
 		         int cf = st.executeUpdate();
+		         conn.commit();
 		         System.out.println(cf + "film records created");
 		         
 		         ResultSet keys = st.getGeneratedKeys();

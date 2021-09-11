@@ -7,6 +7,6 @@
 <title>Film Deleted</title>
 </head>
 <body>
-The film, ${film.title } was deleted successfully!
+The film, ${film.title } was deleted successfully! 
 </body>
 </html>

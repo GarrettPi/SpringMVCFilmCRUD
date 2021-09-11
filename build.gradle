@@ -22,7 +22,6 @@ sourceSets.test {
   resources.srcDir "src/test/java"
 }
 
-project.webAppDirName = 'WebContent'
 
 repositories {
   jcenter()

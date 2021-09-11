@@ -11,7 +11,7 @@
 </head>
 <body>
 <h1 style="font-family: cursive; color: red;'">MVC Film Site</h1>
-<a href="filmId.do">Look up film by Id</a><br>
+<a href="filmid.html">Look up film by Id</a><br>
 <a href="filmKeyword.do">Look up film by title or description keyword</a><br>
 <a href="addfilm.html">Add a new film</a><br>
 

@@ -7,6 +7,6 @@
 <title>Film Added</title>
 </head>
 <body>
-
+${film.title } added successfully
 </body>
 </html>

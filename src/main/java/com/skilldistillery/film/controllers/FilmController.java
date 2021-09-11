@@ -24,8 +24,6 @@ public class FilmController {
 		ModelAndView mv = new ModelAndView();
 		filmDao.createFilm(film);
 		mv.setViewName("filmadded");
-		
-		
 		return mv;
 	}
 }

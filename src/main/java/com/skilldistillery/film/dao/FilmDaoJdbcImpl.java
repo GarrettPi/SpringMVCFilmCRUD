@@ -242,6 +242,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			st.setDouble(8, film.getReplacementCost());
 			st.setString(9, film.getRating());
 			st.setString(10, film.getSpecialFeatures());
+			st.setInt(11, film.getId());
 
 			try {
 				int uf = st.executeUpdate();
@@ -273,5 +274,11 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			e.printStackTrace();
 		}
 		return film;
+	}
+
+	@Override
+	public Actor addActor(Actor actor) {
+		return actor;
+		
 	}
 }

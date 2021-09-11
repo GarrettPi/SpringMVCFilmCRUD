@@ -13,4 +13,5 @@ public interface FilmDAO {
 	List<Film> findFilmByKeyword(String keyword);
 	List<Actor> findActorsByFilmId(int filmId);
 	Category findCategoriesByFilmId(int filmId);
+	Film deleteFilm(Film film);
 }

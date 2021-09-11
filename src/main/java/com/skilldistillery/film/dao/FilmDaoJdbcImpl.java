@@ -173,4 +173,51 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return film;
 	}
-}
+	@Override
+	public Film deleteFilm(Film film) {
+		Connection conn = null;
+		
+		try {
+			conn = DriverManager.getConnection(url, user, pword);
+			conn.setAutoCommit(false); // Start transaction
+			String sql = "DELETE FROM film WHERE film.id=?";
+			
+			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			st.setInt(1, film.getId());
+			
+			try {
+				int df = st.executeUpdate();
+				conn.commit();
+				System.out.println(df + "film records deleted");
+
+				ResultSet keys = st.getGeneratedKeys();
+				while (keys.next()) {
+					System.out.println("Delete film ID: " + keys.getInt(1));
+				}
+			} catch (SQLException e) {
+				// Something went wrong.
+				System.err.println("Error during delete");
+				// e.printStackTrace();
+				System.err.println("SQL Error: " + e.getErrorCode() + ": " + e.getMessage());
+				System.err.println("SQL State: " + e.getSQLState());
+				// Need to rollback, which also throws SQLException.
+				if (conn != null) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						System.err.println("Error rolling back.");
+						e1.printStackTrace();
+					}
+				}
+				return null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return film;
+			
+			
+		}
+	}
+

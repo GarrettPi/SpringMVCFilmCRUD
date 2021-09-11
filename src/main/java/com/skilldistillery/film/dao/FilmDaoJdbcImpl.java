@@ -17,7 +17,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain";
 	String user = "student";
 	String pword = "student";
-	
+
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -122,39 +122,55 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	@Override
 	public Film createFilm(Film film) {
 		Connection conn = null;
-		
-		    try {
-		    	conn = DriverManager.getConnection(url, user, pword);
-			      conn.setAutoCommit(false); // Start transaction 
-			      String sql = "INSERT INTO film (title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features)" 
-		    	 + " VALUES(?,?,?,?,?,?,?,?,?,?)";
-		    	 
-		    	 PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		    	 
-		    	
-		         st.setString(1,film.getTitle());
-		         st.setString(2,film.getDescription());
-		         st.setInt(3,film.getReleaseYear());
-		         st.setInt(4,film.getLanguageId());
-		         st.setInt(5,film.getRentalDuration());
-		         st.setDouble(6,film.getRentalRate());
-		         st.setInt(7,film.getLength());
-		         st.setDouble(8,film.getReplacementCost());
-		         st.setString(9,film.getRating());
-		         st.setString(10,film.getSpecialFeatures());
-		         
-		         int cf = st.executeUpdate();
-		         conn.commit();
-		         System.out.println(cf + "film records created");
-		         
-		         ResultSet keys = st.getGeneratedKeys();
-		         while (keys.next()) {
-		           System.out.println("New film ID: " + keys.getInt(1));
-		         }
-		    }
-		    catch (SQLException e) {
-		      e.printStackTrace();
-		    }
-		    return film;
-		  }
+
+		try {
+			conn = DriverManager.getConnection(url, user, pword);
+			conn.setAutoCommit(false); // Start transaction
+			String sql = "INSERT INTO film (title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features)"
+					+ " VALUES(?,?,?,?,?,?,?,?,?,?)";
+
+			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+			st.setString(1, film.getTitle());
+			st.setString(2, film.getDescription());
+			st.setInt(3, film.getReleaseYear());
+			st.setInt(4, film.getLanguageId());
+			st.setInt(5, film.getRentalDuration());
+			st.setDouble(6, film.getRentalRate());
+			st.setInt(7, film.getLength());
+			st.setDouble(8, film.getReplacementCost());
+			st.setString(9, film.getRating());
+			st.setString(10, film.getSpecialFeatures());
+
+			try {
+				int cf = st.executeUpdate();
+				conn.commit();
+				System.out.println(cf + "film records created");
+
+				ResultSet keys = st.getGeneratedKeys();
+				while (keys.next()) {
+					System.out.println("New film ID: " + keys.getInt(1));
+				}
+			} catch (SQLException e) {
+				film = null;
+				// Something went wrong.
+				System.err.println("Error during inserts.");
+				// e.printStackTrace();
+				System.err.println("SQL Error: " + e.getErrorCode() + ": " + e.getMessage());
+				System.err.println("SQL State: " + e.getSQLState());
+				// Need to rollback, which also throws SQLException.
+				if (conn != null) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						System.err.println("Error rolling back.");
+						e1.printStackTrace();
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return film;
+	}
 }

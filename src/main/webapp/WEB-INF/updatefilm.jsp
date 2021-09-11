@@ -7,7 +7,7 @@
 <title>Update Film Entry</title>
 </head>
 <body>
-<form action="updateFilm.do" method="POST">
+<form action="updateFilm.do?filmId=${film.id }" method="POST">
 Title <input type="text" name="title" value="${film.title }"><br>
 Description <input type="text" name="description" value="${film.title }"><br>
 Release Year <input type="text" name="releaseYear" value="${film.releaseYear }"><br>

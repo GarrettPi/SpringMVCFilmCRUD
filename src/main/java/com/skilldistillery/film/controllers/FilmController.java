@@ -48,9 +48,11 @@ public class FilmController {
 	}
 
 	@RequestMapping(path = "updateFilm.do")
-	public ModelAndView updateFilm() {
+	public ModelAndView updateFilm(@RequestParam("filmId") int filmId) {
+		Film film = filmDao.findFilmById(filmId);
 		ModelAndView mv = new ModelAndView();
-
+		if(film!=null) mv.addObject(film);
+		mv.setViewName("updatefilm");
 		return mv;
 	}
 

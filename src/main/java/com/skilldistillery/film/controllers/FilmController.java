@@ -53,6 +53,13 @@ public class FilmController {
 		
 		return mv;
 	}
+	@RequestMapping(path="deleteFilm.do")
+	public ModelAndView deleteFilm() {
+		ModelAndView mv = new ModelAndView();
+		
+		
+		return mv;
+	}
 	
 	@RequestMapping(path="keywordLookup.do")
 	public ModelAndView keywordLookup(String keyword) {

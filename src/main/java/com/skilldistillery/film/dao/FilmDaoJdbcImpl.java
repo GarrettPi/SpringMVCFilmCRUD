@@ -5,13 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Category;
 import com.skilldistillery.film.entities.Film;
-
 
 public class FilmDaoJdbcImpl implements FilmDAO {
 	String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false";
@@ -41,7 +41,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return film;
 	}
-	
+
 	@Override
 	public List<Film> findFilmByKeyword(String keyword) {
 		List<Film> films = new ArrayList<>();
@@ -68,7 +68,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return films;
 	}
-	
+
 	@Override
 	public List<Actor> findActorsByFilmId(int filmId) {
 		List<Actor> actors = new ArrayList<>();
@@ -88,7 +88,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return actors;
 	}
-	
+
 	@Override
 	public Category findCategoriesByFilmId(int filmId) {
 		Category category = null;
@@ -109,20 +109,42 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return category;
 	}
-	
+
 	@Override
 	public Film createFilm(Film film) {
-		 void runSQL(); {
-			   
+		Connection conn = null;
+		
 		    try {
-		    	 Connection conn = null;
-		    	 String sql = "INSERT INTO film (title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features)" 
+		    	conn = DriverManager.getConnection(url, user, pword);
+			      conn.setAutoCommit(false); // Start transactioning 
+			      String sql = "INSERT INTO film (title, description, release_year, language_id, rental_duration, rental_rate, length, replacement_cost, rating, special_features)" 
 		    	 + " VALUES(?,?,?,?,?,?,?,?,?,?)";
-		    	
-		    }
 		    	 
-		   
+		    	 PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		    	 
+		    	
+		         st.setString(1,film.getTitle());
+		         st.setString(2,film.getDescription());
+		         st.setInt(3,film.getReleaseYear());
+		         st.setInt(4,film.getLanguageId());
+		         st.setInt(5,film.getRentalDuration());
+		         st.setDouble(6,film.getRentalRate());
+		         st.setInt(7,film.getLength());
+		         st.setDouble(8,film.getReplacementCost());
+		         st.setString(9,film.getRating());
+		         st.setString(10,film.getSpecialFeatures());
+		         
+		         int cf = st.executeUpdate();
+		         System.out.println(cf + "film records created");
+		         
+		         ResultSet keys = st.getGeneratedKeys();
+		         while (keys.next()) {
+		           System.out.println("New film ID: " + keys.getInt(1));
+		         }
 		    }
-	}
-
+		    catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+		    return film;
+		  }
 }

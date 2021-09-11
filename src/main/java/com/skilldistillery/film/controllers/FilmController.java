@@ -47,10 +47,20 @@ public class FilmController {
 		return mv;
 	}
 
-	@RequestMapping(path = "updateFilm.do")
-	public ModelAndView updateFilm() {
+	@RequestMapping(path = "filmToUpdate.do")
+	public ModelAndView filmToUpdate(int filmId) {
+		Film film = filmDao.findFilmById(filmId);
 		ModelAndView mv = new ModelAndView();
-
+		if(film!=null) mv.addObject(film);
+		mv.setViewName("updatefilm");
+		return mv;
+	}
+	
+	@RequestMapping(path="updateFilm.do")
+	public ModelAndView updateFilm(int filmId) {
+		Film film = filmDao.findFilmById(filmId);
+		ModelAndView mv = new ModelAndView();
+		
 		return mv;
 	}
 
@@ -61,9 +71,9 @@ public class FilmController {
 		film = filmDao.findFilmById(filmId);
 		if (film != null) {
 			filmDao.deleteFilm(film);
-			mv.setViewName("filmdeleted");
+			mv.addObject(film);
 		}
-		mv.addObject(film);
+		mv.setViewName("filmdeleted");
 		return mv;
 	}
 

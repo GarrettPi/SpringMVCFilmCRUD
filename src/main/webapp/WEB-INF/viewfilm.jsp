@@ -17,12 +17,8 @@
 		Description: ${film.description }<br>
 		${film.length } minutes
 	<br><a href="home.do">Home</a>
-	<%-- <br><a href="deleteFilm.do" name="${film.id }">Delete this film</a> --%>
-	<<form action="deleteFilm.do">
-	Film Id <input type="text" name="filmId" value="${film.id }">
-	<input type="submit" value="Delete">
-	</form>
-	<br><a href="updateFilm.do">Update the film information</a>
+	<br><a href="deleteFilm.do?filmId=${film.id }">Delete this film</a>
+	<br><a href="filmToUpdate.do?filmId=${film.id }">Update the film information</a>
 	</c:if>
 	<c:if test="${empty film }">Sorry, but that film ID doesn't exist.  Please Try Again!
 	<br><a href="home.do">Home</a>

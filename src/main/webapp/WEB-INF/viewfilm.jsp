@@ -10,11 +10,16 @@
 <title>Film Details</title>
 </head>
 <body>
-<h1>Film Details</h1>
-<br>
-Title: ${film.title }, ${film.releaseYear }, Rated ${film.rating }<br>
-Description: ${film.description }<br>
-${film.length } minutes
-
+	<h1>Film Details</h1>
+	<br>
+	<c:if test="${not empty film }">
+		Title: ${film.title }, ${film.releaseYear }, Rated ${film.rating }<br>
+		Description: ${film.description }<br>
+		${film.length } minutes
+	<br><a href="home.do">Home</a>
+	</c:if>
+	<c:if test="${empty film }">Sorry, but that film ID doesn't exist.  Please Try Again!
+	<br><a href="home.do">Home</a>
+	</c:if>
 </body>
 </html>

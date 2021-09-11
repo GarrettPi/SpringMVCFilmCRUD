@@ -38,10 +38,10 @@ public class FilmController {
 	}
 	
 	@RequestMapping(path="idLookup.do", method=RequestMethod.POST)
-	public ModelAndView idLookup(@RequestParam("filmId") int filmId) {
+	public ModelAndView idLookup(int filmId) {
 		Film film = filmDao.findFilmById(filmId);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject(film);
+		if(film != null) mv.addObject(film);
 		mv.setViewName("viewfilm");
 		return mv;
 	}

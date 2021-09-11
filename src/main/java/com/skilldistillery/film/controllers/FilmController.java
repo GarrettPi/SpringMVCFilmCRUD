@@ -55,9 +55,12 @@ public class FilmController {
 	}
 
 	@RequestMapping(path = "deleteFilm.do")
-	public ModelAndView deleteFilm() {
+	public ModelAndView deleteFilm(int filmId) {
 		ModelAndView mv = new ModelAndView();
-
+		Film film = filmDao.findFilmById(filmId);
+		filmDao.deleteFilm(film);
+		mv.setViewName("filmdeleted");
+		mv.addObject(film);
 		return mv;
 	}
 

@@ -19,4 +19,5 @@ public interface FilmDAO {
 	Actor addActorToFilm(Actor actor, Film film);
 	Actor updateActor(Actor actor);
 	Actor deleteActor(Actor actor);
+	Actor deleteActorFromFilm(Actor actor, Film film);
 }

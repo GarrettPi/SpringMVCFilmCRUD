@@ -69,8 +69,8 @@ public class FilmController {
 		ModelAndView mv = new ModelAndView();
 		Film film = filmDao.findFilmById(filmId);
 		System.out.println(film);
-		film = filmDao.updateFilm(film);
-		System.out.println(film);
+		Film newFilm = filmDao.updateFilm(film);
+		System.out.println(newFilm);
 		mv.setViewName("viewfilm");
 		mv.addObject(film);
 		return mv;

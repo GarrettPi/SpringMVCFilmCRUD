@@ -49,6 +49,7 @@ public class FilmController {
 		if (film != null) {
 			mv.addObject(film);
 			mv.addObject("actors", actors);
+			mv.addObject("categories", categories);
 		}
 		mv.setViewName("viewfilm");
 		return mv;

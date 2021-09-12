@@ -225,10 +225,10 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	public Film updateFilm(Film film) {
 		Connection conn = null;
 
+		String sql = "UPDATE film SET title = ?,description = ?,release_year = ?,language_id = ?,rental_duration = ?,rental_rate = ?,length = ?,replacement_cost = ?,rating = ?,special_features = ? WHERE id = ?";
 		try {
 			conn = DriverManager.getConnection(url, user, pword);
 			conn.setAutoCommit(false);
-			String sql = "UPDATE film SET title = ?,description = ?,release_year = ?,language_id = ?,rental_duration = ?,rental_rate = ?,length = ?,replacement_cost = ?,rating = ?,special_features = ? WHERE id = ?";
 
 			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			st.setString(1, film.getTitle());

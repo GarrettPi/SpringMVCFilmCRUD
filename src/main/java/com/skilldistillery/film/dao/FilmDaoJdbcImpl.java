@@ -322,5 +322,53 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return actor;
 	}
+
+	
+	@Override
+	public Actor addActorToFilm(Actor actor, Film film) {
+		Connection conn = null;
+
+		try {
+			conn = DriverManager.getConnection(url, user, pword);
+			conn.setAutoCommit(false);
+			String sql = "INSERT INTO film_actor (actor_id, film_id) VALUES (?,?)";
+			
+			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			st.setInt(1, actor.getId());
+			st.setInt(2, film.getId());
+			
+			try {
+				int af = st.executeUpdate();
+				conn.commit();
+				System.out.println(af + "film records updated");
+
+				ResultSet keys = st.getGeneratedKeys();
+				while (keys.next()) {
+					System.out.println("Add Actor ID: " + keys.getInt(1) + "Add Film ID: " + keys.getInt(2));
+				}
+			} catch (SQLException e) {
+				// Something went wrong.
+				System.err.println("Error during insert.");
+				// e.printStackTrace();
+				System.err.println("SQL Error: " + e.getErrorCode() + ": " + e.getMessage());
+				System.err.println("SQL State: " + e.getSQLState());
+				// Need to rollback, which also throws SQLException.
+				if (conn != null) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						System.err.println("Error rolling back.");
+						e1.printStackTrace();
+					}
+				}
+				return null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return actor;
+		
+	}
 	
 }

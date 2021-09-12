@@ -13,6 +13,7 @@
 <body>
 	<h1>Films with matching keywords</h1>
 	<c:if test="${not empty films }">
+	<br>That keyword has found ${films.size() } records.<br>
 	<h4>Please select a film for more information.</h4>
 	<div>
 		<form action="idLookup.do" method="POST">

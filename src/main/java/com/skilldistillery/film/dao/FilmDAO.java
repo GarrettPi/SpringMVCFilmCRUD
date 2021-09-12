@@ -12,9 +12,11 @@ public interface FilmDAO {
 	Film createFilm(Film film);
 	List<Film> findFilmByKeyword(String keyword);
 	List<Actor> findActorsByFilmId(int filmId);
-	Category findCategoriesByFilmId(int filmId);
+	List<Category> findCategoriesByFilmId(int filmId); 
 	Film deleteFilm(Film film);
 	Actor addActor(Actor actor);
 	Film updateFilm(Film originalFilm, Film film);
 	Actor addActorToFilm(Actor actor, Film film);
+	Actor updateActor(Actor actor);
+	Actor deleteActor(Actor actor);
 }

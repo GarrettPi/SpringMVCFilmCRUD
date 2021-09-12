@@ -131,7 +131,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 					+ " VALUES(?,?,?,?,?,?,?,?,?,?)";
 
 			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
+			System.out.println(film.getReplacementCost());
 			st.setString(1, film.getTitle());
 			st.setString(2, film.getDescription());
 			st.setInt(3, film.getReleaseYear());
@@ -233,7 +233,6 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 					+ "WHERE film.id = ?";
 
 			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
 			st.setString(1, film.getTitle());
 			st.setString(2, film.getDescription());
 			st.setInt(3, film.getReleaseYear());
@@ -245,11 +244,12 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			st.setString(9, film.getRating());
 			st.setString(10, film.getSpecialFeatures());
 			st.setInt(11, film.getId());
+			System.out.println(film.getId());
 
 			try {
 				int uf = st.executeUpdate();
 				conn.commit();
-				System.out.println(uf + "film records updated");
+				System.out.println(uf + " film records updated");
 
 				ResultSet keys = st.getGeneratedKeys();
 				while (keys.next()) {
@@ -509,35 +509,41 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		return actor;
 	}
 
-	public List<InventoryItem> viewInventory(Film film) {
-		List <InventoryItem> inventory = new ArrayList<>();
-		Connection conn = null;
-
-//		TODO: update st.setLocalDateTime accordingly in front end to Date and Time.
-		try {
-			conn = DriverManager.getConnection(url, user, pword);
-			conn.setAutoCommit(false);
-			String sql = "SELECT id, film_id, store_id, media_condition, last_update FROM inventory_item WHERE film_id = ?";
-
-			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
-			st.setInt(1, film.getId());
-
-			
-			try {
-				int vi = st.executeUpdate();
-				conn.commit();
-				System.out.println(vi + "inventory records found");
-
-				ResultSet keys = st.getGeneratedKeys();
-				while (keys.next()) {
-					System.out.println("Film ID Inventory: " + keys.getInt(1));
-				}
-
-		
-
-		
-		
-		return inventory;
+	@Override
+	public List<InventoryItem> viewInventory() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+//	public List<InventoryItem> viewInventory(Film film) {
+//		List <InventoryItem> inventory = new ArrayList<>();
+//		Connection conn = null;
+//
+////		TODO: update st.setLocalDateTime accordingly in front end to Date and Time.
+//		try {
+//			conn = DriverManager.getConnection(url, user, pword);
+//			conn.setAutoCommit(false);
+//			String sql = "SELECT id, film_id, store_id, media_condition, last_update FROM inventory_item WHERE film_id = ?";
+//
+//			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//			
+//			st.setInt(1, film.getId());
+//
+//			
+//			try {
+//				int vi = st.executeUpdate();
+//				conn.commit();
+//				System.out.println(vi + "inventory records found");
+//
+//				ResultSet keys = st.getGeneratedKeys();
+//				while (keys.next()) {
+//					System.out.println("Film ID Inventory: " + keys.getInt(1));
+//				}
+//
+//		
+//
+//		
+//		
+//		return inventory;
+//	}
 }

@@ -221,7 +221,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	}
 
 	@Override
-	public Film updateFilm(Film film, Film originalFilm) {
+	public Film updateFilm(Film film) {
 		Connection conn = null;
 
 		try {

@@ -15,7 +15,7 @@ public interface FilmDAO {
 	List<Category> findCategoriesByFilmId(int filmId); 
 	Film deleteFilm(Film film);
 	Actor addActor(Actor actor);
-	Film updateFilm(Film originalFilm, Film film);
+	Film updateFilm(Film film);
 	Actor addActorToFilm(Actor actor, Film film);
 	Actor updateActor(Actor actor);
 	Actor deleteActor(Actor actor);

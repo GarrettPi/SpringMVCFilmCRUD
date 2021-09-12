@@ -66,8 +66,7 @@ public class FilmController {
 	
 	@RequestMapping(path="updateFilm.do", method=RequestMethod.POST)
 	public ModelAndView updateFilm(Film film) {
-		Film originalFilm = filmDao.findFilmById(film.getId());
-		Film newFilm = filmDao.updateFilm(film, originalFilm);
+		Film newFilm = filmDao.updateFilm(film);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("viewfilm");
 		mv.addObject(newFilm);

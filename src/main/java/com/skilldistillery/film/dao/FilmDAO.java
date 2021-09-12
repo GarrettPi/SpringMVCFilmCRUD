@@ -20,4 +20,5 @@ public interface FilmDAO {
 	Actor updateActor(Actor actor);
 	Actor deleteActor(Actor actor);
 	Actor deleteActorFromFilm(Actor actor, Film film);
+	List<Inventory> viewInventory();
 }

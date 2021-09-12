@@ -12,6 +12,7 @@ import java.util.List;
 import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Category;
 import com.skilldistillery.film.entities.Film;
+import com.skilldistillery.film.entities.InventoryItem;
 
 public class FilmDaoJdbcImpl implements FilmDAO {
 	String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain";
@@ -506,5 +507,37 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			e.printStackTrace();
 		}
 		return actor;
+	}
+
+	public List<InventoryItem> viewInventory(Film film) {
+		List <InventoryItem> inventory = new ArrayList<>();
+		Connection conn = null;
+
+//		TODO: update st.setLocalDateTime accordingly in front end to Date and Time.
+		try {
+			conn = DriverManager.getConnection(url, user, pword);
+			conn.setAutoCommit(false);
+			String sql = "SELECT id, film_id, store_id, media_condition, last_update FROM inventory_item WHERE film_id = ?";
+
+			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			st.setInt(1, film.getId());
+
+			
+			try {
+				int vi = st.executeUpdate();
+				conn.commit();
+				System.out.println(vi + "inventory records found");
+
+				ResultSet keys = st.getGeneratedKeys();
+				while (keys.next()) {
+					System.out.println("Film ID Inventory: " + keys.getInt(1));
+				}
+
+		
+
+		
+		
+		return inventory;
 	}
 }

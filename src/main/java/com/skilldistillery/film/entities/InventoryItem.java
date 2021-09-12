@@ -1,5 +1,6 @@
 package com.skilldistillery.film.entities;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class InventoryItem {
@@ -7,18 +8,28 @@ public class InventoryItem {
 	private int filmId;
 	private int storeId;
 	private String mediaCondition;
-//TODO: last update?
+	private LocalDateTime lastUpdate;
 
-	public InventoryItem() {
-		super();
-	}
 
-	public InventoryItem(int id, int filmId, int storeId, String mediaCondition) {
+	public InventoryItem(int id, int filmId, int storeId, String mediaCondition, LocalDateTime lastUpdate) {
 		super();
 		this.id = id;
 		this.filmId = filmId;
 		this.storeId = storeId;
 		this.mediaCondition = mediaCondition;
+		this.lastUpdate = lastUpdate;
+	}
+
+	public LocalDateTime getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(LocalDateTime lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public InventoryItem() {
+		super();
 	}
 
 	public int getId() {
@@ -56,12 +67,12 @@ public class InventoryItem {
 	@Override
 	public String toString() {
 		return "InventoryItem [id=" + id + ", filmId=" + filmId + ", storeId=" + storeId + ", mediaCondition="
-				+ mediaCondition + "]";
+				+ mediaCondition + ", lastUpdate=" + lastUpdate + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(filmId, id, mediaCondition, storeId);
+		return Objects.hash(filmId, id, lastUpdate, mediaCondition, storeId);
 	}
 
 	@Override
@@ -73,8 +84,8 @@ public class InventoryItem {
 		if (getClass() != obj.getClass())
 			return false;
 		InventoryItem other = (InventoryItem) obj;
-		return filmId == other.filmId && id == other.id && Objects.equals(mediaCondition, other.mediaCondition)
-				&& storeId == other.storeId;
+		return filmId == other.filmId && id == other.id && Objects.equals(lastUpdate, other.lastUpdate)
+				&& Objects.equals(mediaCondition, other.mediaCondition) && storeId == other.storeId;
 	}
 
 }

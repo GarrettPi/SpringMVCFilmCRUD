@@ -6,7 +6,7 @@
 
 ### Technologies Used
 
-* Java ![Image of Java Logo](/images/javalogo.jpg)
+* Java ![Image of Java Logo](/images/javalogo.jpg | width=100)
 * Spring MVC
 * MySql
 * JDBC

@@ -6,9 +6,9 @@
 
 ### Technologies Used
 
-* Java <img src="/images/javalogo.jpg" alt="alt text" width="100">
-* Spring MVC <img src="/images/spring.png" alt="alt text" width="100">
-* MySql <img src="/images/mysql.png" alt="alt text" width="100">
+* Java 
+* Spring MVC 
+* MySql 
 * JDBC
 
 ### Lessons Learned

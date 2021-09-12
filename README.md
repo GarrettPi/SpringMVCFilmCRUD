@@ -6,7 +6,7 @@
 
 ### Technologies Used
 
-* Java
+* Java ![Image of Java Logo](https://GarrettPi.github.com/images/javalogo.jpg)
 * Spring MVC
 * MySql
 * JDBC

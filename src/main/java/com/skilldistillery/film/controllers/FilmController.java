@@ -1,6 +1,5 @@
 package com.skilldistillery.film.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.skilldistillery.film.dao.FilmDAO;
+import com.skilldistillery.film.entities.Actor;
+import com.skilldistillery.film.entities.Category;
 import com.skilldistillery.film.entities.Film;
 
 @Controller
@@ -42,9 +43,13 @@ public class FilmController {
 	@RequestMapping(path = "idLookup.do", method = RequestMethod.POST)
 	public ModelAndView idLookup(int filmId) {
 		Film film = filmDao.findFilmById(filmId);
+		List<Actor> actors = filmDao.findActorsByFilmId(filmId);
+		List<Category> categories = filmDao.findCategoriesByFilmId(filmId);
 		ModelAndView mv = new ModelAndView();
-		if (film != null)
+		if (film != null) {
 			mv.addObject(film);
+			mv.addObject("actors", actors);
+		}
 		mv.setViewName("viewfilm");
 		return mv;
 	}

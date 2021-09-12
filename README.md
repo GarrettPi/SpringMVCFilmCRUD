@@ -6,9 +6,10 @@
 
 ### Technologies Used
 
-*Java
-*Spring MVC
-*TODO: FINISH THIS LIST
+* Java
+* Spring MVC
+* MySql
+* JDBC
 
 ### Lessons Learned
 

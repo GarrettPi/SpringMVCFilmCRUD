@@ -40,6 +40,22 @@ public class FilmController {
 		mv.setViewName("filmadded");
 		return mv;
 	}
+	
+	@RequestMapping(path="addActor.do", method = RequestMethod.POST)
+	public ModelAndView addActor(Actor actor, RedirectAttributes redir) {
+		ModelAndView mv = new ModelAndView();
+		Actor newActor = filmDao.addActor(actor);
+		redir.addFlashAttribute("actor", newActor);
+		mv.setViewName("redirect:actorAdded.do");
+		return mv;
+	}
+	
+	@RequestMapping(path="actorAdded.do", method = RequestMethod.GET)
+	public ModelAndView actorAdded() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("actoradded");
+		return mv;
+	}
 
 	@RequestMapping(path = "idLookup.do", method = RequestMethod.POST)
 	public ModelAndView idLookup(int filmId) {

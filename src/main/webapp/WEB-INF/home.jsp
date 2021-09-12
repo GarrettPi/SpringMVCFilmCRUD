@@ -14,6 +14,7 @@
 <a href="filmid.html">Look up film by Id</a><br>
 <a href="filmkeyword.html">Look up film by title or description keyword</a><br>
 <a href="addfilm.html">Add a new film</a><br>
+<a href="addactor.html">Add a new actor</a><br>
 
 </body>
 </html>

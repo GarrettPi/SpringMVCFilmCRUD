@@ -60,20 +60,25 @@ public class FilmController {
 	public ModelAndView filmToUpdate(int filmId) {
 		Film film = filmDao.findFilmById(filmId);
 		ModelAndView mv = new ModelAndView();
-		if(film!=null) mv.addObject(film);
+		if (film != null)
+			mv.addObject(film);
 		mv.setViewName("updatefilm");
 		return mv;
 	}
-	
-	@RequestMapping(path="updateFilm.do", method=RequestMethod.POST)
+
+	@RequestMapping(path = "updateFilm.do", method = RequestMethod.POST)
 	public ModelAndView updateFilm(@RequestParam("filmId") int filmID, Film film) {
 		ModelAndView mv = new ModelAndView();
 		System.out.println(film);
 		film.setId(filmID);
 		System.out.println(film.getId());
-		filmDao.updateFilm(film);
-		mv.setViewName("viewfilm");
-		mv.addObject(film);
+		Film newFilm = filmDao.updateFilm(film);
+		mv.setViewName("filmupdated");
+		if (newFilm == null) {
+			newFilm = new Film();
+			newFilm.setId(-1);
+		}
+		mv.addObject("film", newFilm);
 		return mv;
 	}
 

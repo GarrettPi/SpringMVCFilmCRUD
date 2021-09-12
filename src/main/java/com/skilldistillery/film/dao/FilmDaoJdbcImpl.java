@@ -259,6 +259,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				// e.printStackTrace();
 				System.err.println("SQL Error: " + e.getErrorCode() + ": " + e.getMessage());
 				System.err.println("SQL State: " + e.getSQLState());
+				film = null;
 				// Need to rollback, which also throws SQLException.
 				if (conn != null) {
 					try {
@@ -268,7 +269,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 						e1.printStackTrace();
 					}
 				}
-				return null;
+				return film;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -9,7 +9,7 @@
 <body>
 <form action="updateFilm.do?filmId=${film.id }" method="POST">
 Title <input type="text" name="title" value="${film.title }"><br>
-Description <input type="text" name="description" value="${film.title }"><br>
+Description <input type="text" name="description" value="${film.description }"><br>
 Release Year <input type="text" name="releaseYear" value="${film.releaseYear }"><br>
 Language Id <input type="text" name="languageId" value="${film.languageId }"><br>
 Rental Duration <input type="text" name="rentalDuration" value="${film.rentalDuration }"><br>

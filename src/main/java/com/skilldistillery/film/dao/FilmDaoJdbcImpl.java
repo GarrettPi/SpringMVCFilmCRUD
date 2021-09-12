@@ -370,7 +370,6 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 
 	}
 
-
 	@Override
 	public Actor updateActor(Actor actor) {
 		Connection conn = null;
@@ -418,48 +417,94 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		return actor;
 	}
 
-@Override
-public Actor deleteActor(Actor actor) {
-	Connection conn = null;
-
-	try {
-		conn = DriverManager.getConnection(url, user, pword);
-		conn.setAutoCommit(false);
-		String sql = "DELETE actor FROM actor WHERE actor.id =?";
-
-		PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-		st.setInt(1, actor.getId());
+	@Override
+	public Actor deleteActor(Actor actor) {
+		Connection conn = null;
 
 		try {
-			int da = st.executeUpdate();
-			conn.commit();
-			System.out.println(da + "actor record deleted");
+			conn = DriverManager.getConnection(url, user, pword);
+			conn.setAutoCommit(false);
+			String sql = "DELETE actor FROM actor WHERE actor.id =?";
 
-			ResultSet keys = st.getGeneratedKeys();
-			while (keys.next()) {
-				System.out.println("Delete Actor ID: " + keys.getInt(1));
+			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+			st.setInt(1, actor.getId());
+
+			try {
+				int da = st.executeUpdate();
+				conn.commit();
+				System.out.println(da + "actor record deleted");
+
+				ResultSet keys = st.getGeneratedKeys();
+				while (keys.next()) {
+					System.out.println("Delete Actor ID: " + keys.getInt(1));
+				}
+			} catch (SQLException e) {
+				// Something went wrong.
+				System.err.println("Error during update.");
+				// e.printStackTrace();
+				System.err.println("SQL Error: " + e.getErrorCode() + ": " + e.getMessage());
+				System.err.println("SQL State: " + e.getSQLState());
+				// Need to rollback, which also throws SQLException.
+				if (conn != null) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						System.err.println("Error rolling back.");
+						e1.printStackTrace();
+					}
+				}
+				return null;
 			}
 		} catch (SQLException e) {
-			// Something went wrong.
-			System.err.println("Error during update.");
-			// e.printStackTrace();
-			System.err.println("SQL Error: " + e.getErrorCode() + ": " + e.getMessage());
-			System.err.println("SQL State: " + e.getSQLState());
-			// Need to rollback, which also throws SQLException.
-			if (conn != null) {
-				try {
-					conn.rollback();
-				} catch (SQLException e1) {
-					System.err.println("Error rolling back.");
-					e1.printStackTrace();
-				}
-			}
-			return null;
+			e.printStackTrace();
 		}
-	} catch (SQLException e) {
-		e.printStackTrace();
+		return actor;
 	}
-	return actor;
-}
+
+	@Override
+	public Actor deleteActorFromFilm(Actor actor, Film film) {
+		Connection conn = null;
+
+		try {
+			conn = DriverManager.getConnection(url, user, pword);
+			conn.setAutoCommit(false);
+			String sql = "DELETE FROM film_actor WHERE actor.id = ? AND film.id = ?";
+
+			PreparedStatement st = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+			st.setInt(1, actor.getId());
+			st.setInt(2, film.getId());
+
+			try {
+				int daf = st.executeUpdate();
+				conn.commit();
+				System.out.println(daf + "film actor records deleted");
+
+				ResultSet keys = st.getGeneratedKeys();
+				while (keys.next()) {
+					System.out.println("Add Actor ID: " + keys.getInt(1) + "Add Film ID: " + keys.getInt(2));
+				}
+			} catch (SQLException e) {
+				// Something went wrong.
+				System.err.println("Error during insert.");
+				// e.printStackTrace();
+				System.err.println("SQL Error: " + e.getErrorCode() + ": " + e.getMessage());
+				System.err.println("SQL State: " + e.getSQLState());
+				// Need to rollback, which also throws SQLException.
+				if (conn != null) {
+					try {
+						conn.rollback();
+					} catch (SQLException e1) {
+						System.err.println("Error rolling back.");
+						e1.printStackTrace();
+					}
+				}
+				return null;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return actor;
+	}
 }

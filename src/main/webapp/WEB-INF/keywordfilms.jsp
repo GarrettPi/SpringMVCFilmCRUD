@@ -12,6 +12,7 @@
 </head>
 <body>
 	<h1>Films with matching keywords</h1>
+	<c:if test="${not empty films }">
 	<h4>Please select a film for more information.</h4>
 	<div>
 		<form action="idLookup.do" method="POST">
@@ -24,5 +25,10 @@
 			<input type="submit" value="More Info">
 		</form>
 	</div>
+	</c:if>
+	<c:if test="${empty films }">
+	No films match that keyword.  Please try again.
+	</c:if>
+	<br><a href="home.do">Home</a>
 </body>
 </html>

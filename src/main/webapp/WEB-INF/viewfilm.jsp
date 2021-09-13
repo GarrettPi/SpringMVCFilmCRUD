@@ -16,6 +16,7 @@
 		Title: ${film.title }, ${film.releaseYear }, Rated ${film.rating }<br>
 		Description: ${film.description }<br>
 		${film.length } minutes<br>
+		Film id: ${film.id }<br>
 		<h4>Categories</h4>
 		<ul>
 			<c:forEach var="c" items="${categories}">

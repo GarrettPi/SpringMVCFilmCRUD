@@ -20,7 +20,7 @@
 			<c:forEach var="f" items="${films }">
 				<div>
 					<input type="radio" id="${f.id }" name="filmId" value="${f.id }"> ${film.title }
-					<label>${f.title }</label>, ${f.releaseYear }, ${f.rating }<br>
+					<label>Id: ${f.id } ${f.title }</label>, ${f.releaseYear }, ${f.rating }<br>
 				</div>
 			</c:forEach>
 			<input type="submit" value="More Info">
